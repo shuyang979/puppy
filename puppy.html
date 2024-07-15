@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talking Dog</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        .dog {
+            width: 200px;
+            cursor: pointer;
+            border-radius: 15px; /* 添加圆角矩形 */
+        }
+        .speech-bubble {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            width: 200px;
+            top: -50px; /* 调整到图片上方 */
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%; /* 调整箭头位置 */
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://raw.githubusercontent.com/shuyang979/puppy/main/puppy/carolwilson50182_Pixel_style_dog_cute_b484f24b-0044-40f2-93aa-29dac55f343b.png" alt="Dog" class="dog" onclick="speak()">
+        <div class="speech-bubble" id="speechBubble">Hello!</div>
+    </div>
+    <script>
+        const phrases = [
+            "Hello", "How are you?", "Woof!", "Nice to meet you", 
+            "I love you!", "I love u！", "Good morning", "Good night", 
+            "Let's play", "I am hungry", "You are my best friend", 
+            "Let's go for a walk", "I am happy", "You are amazing", 
+            "Good job!", "Keep smiling", "You are wonderful", 
+            "Stay positive", "You make me happy", "Life is beautiful", 
+            "Enjoy every moment", "You are loved", "You are special", 
+            "Believe in yourself", "You can do it", "Happiness is here", 
+            "You are strong", "You are kind", "Keep shining", "Spread love", 
+            "Stay awesome", "You rock", "Dream big", "You are a star", 
+            "Keep going", "You are unique", "Be happy", "Keep laughing", 
+            "Embrace joy", "You are incredible", "Shine bright", 
+            "You are the best", "Stay cheerful", "Feel the love", 
+            "You bring joy", "Stay fabulous", "You are inspiring", 
+            "Be yourself", "You are a gift", "Love yourself", 
+            "Live in the moment", "Be fearless", "Are you okay?", 
+            "Do you need anything?", "How was your day?", 
+            "Did you eat well?", "How can I help?", "What's on your mind?"
+        ];
+
+        function speak() {
+            const speechBubble = document.getElementById('speechBubble');
+            let randomPhrase;
+
+            // 10% 概率选择 "Woof!"
+            if (Math.random() < 0.10) {
+                randomPhrase = "Woof !";
+            } else {
+                // 从 phrases 数组中随机选择一个短语
+                randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            }
+
+            // 动态添加感叹号，只在非问句且不以感叹号结尾的短语后添加
+            if (!randomPhrase.endsWith('?') && !randomPhrase.endsWith('!')) {
+                randomPhrase += " !";
+            }
+
+            speechBubble.textContent = randomPhrase;
+            speechBubble.style.display = 'block';
+            setTimeout(() => {
+                speechBubble.style.display = 'none';
+            }, 15000); // 显示时间延长到 15 秒
+        }
+    </script>
+</body>
+</html>
