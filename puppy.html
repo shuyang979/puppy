@@ -12,6 +12,7 @@
             height: 100vh;
             background-color: #f0f8ff;
             font-family: Arial, sans-serif;
+            margin: 0;
         }
         .container {
             text-align: center;
@@ -20,7 +21,7 @@
         .dog {
             width: 200px;
             cursor: pointer;
-            border-radius: 15px; /* 添加圆角矩形 */
+            border-radius: 15px;
         }
         .speech-bubble {
             display: none;
@@ -29,20 +30,40 @@
             border-radius: 10px;
             padding: 10px;
             width: 200px;
-            top: -50px; /* 调整到图片上方 */
+            top: -50px;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .speech-bubble::after {
             content: '';
             position: absolute;
-            top: 100%; /* 调整箭头位置 */
+            top: 100%;
             left: 50%;
             transform: translateX(-50%);
             border-width: 10px;
             border-style: solid;
             border-color: #fff transparent transparent transparent;
+        }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: red;
+            animation: float 1s ease-in-out forwards;
+        }
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+        }
+        #affection {
+            font-size: 24px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -50,6 +71,7 @@
     <div class="container">
         <img src="https://raw.githubusercontent.com/shuyang979/puppy/main/carolwilson50182_Pixel_style_dog_cute_b484f24b-0044-40f2-93aa-29dac55f343b.png" alt="Dog" class="dog" onclick="speak()">
         <div class="speech-bubble" id="speechBubble">Hello!</div>
+        <div id="affection">Affection: 0</div>
     </div>
     <script>
         const phrases = [
@@ -73,28 +95,33 @@
             "Did you eat well?", "How can I help?", "What's on your mind?"
         ];
 
+        let affection = 0;
+
         function speak() {
             const speechBubble = document.getElementById('speechBubble');
-            let randomPhrase;
-
-            // 10% 概率选择 "Woof!"
-            if (Math.random() < 0.10) {
-                randomPhrase = "Woof !";
-            } else {
-                // 从 phrases 数组中随机选择一个短语
-                randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-            }
-
-            // 动态添加感叹号，只在非问句且不以感叹号结尾的短语后添加
-            if (!randomPhrase.endsWith('?') && !randomPhrase.endsWith('!')) {
-                randomPhrase += " !";
-            }
-
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
             speechBubble.textContent = randomPhrase;
             speechBubble.style.display = 'block';
             setTimeout(() => {
                 speechBubble.style.display = 'none';
-            }, 15000); // 显示时间延长到 15 秒
+            }, 15000);
+
+            affection++;
+            document.getElementById('affection').textContent = `Affection: ${affection}`;
+            createHeart();
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.textContent = '❤️';
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = `${Math.random() * 100}%`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
         }
     </script>
 </body>
